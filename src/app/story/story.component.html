@@ -1,0 +1,46 @@
+<div *ngIf="isLoading" style="text-align: center;">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+<div class="row">
+  <div class="col-md-12"><b>Project name : </b> {{storyData['project']}}</div>
+  <div class="col-md-12"><b>Story Point : </b> {{storyData['summary']}}</div>
+  <div class="col-md-12"><b>Summary : </b> {{storyData['description']}}</div>
+  <div class="col-md-12"><b>Description : </b> {{storyData['storyPoint']}}</div>
+  <div class="col-md-12"><b>Assignee : </b> {{storyData['assignee']}}</div>
+  <div class="col-md-12"><b>Status : </b> {{storyData['status']}}</div>
+  <div class="col-md-12"><b>Type : </b> {{searchtype}}</div>
+</div> 
+<table class="table table-striped table-bordered row-border hover" datatable *ngIf="showDetails">
+  <thead>
+    <tr>
+      <th><input type="checkbox" [disabled]="isEditable" [checked]="mainChecked" (click)="onAllCheck($event.target.checked)"></th>
+      <th>Key</th>
+      <th>Summary</th>
+      <th>Status</th>      
+      <th>Comment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let story of storyData['subtasks']">
+      <td><input type="checkbox" [disabled]="isEditable" [checked]="allChecked" value="{{story.key}}" (click)="onTaskCheck($event.target.checked, story.key)"></td>
+      <td><a [routerLink]="['/search/', story.key]">{{story.key}}</a></td>
+      <td>{{story.fields.summary}}</td>
+      <td>
+        <select name="status" *ngIf="isEditable">
+          <option *ngFor="let status of statuses" value="status" [selected]="story.fields.status.name == status">{{ status }}</option>
+        </select>                    
+        <div *ngIf="!isEditable">{{story.fields.status.name}}</div>
+      </td>      
+      <td>
+        <textarea name="" id="" cols="30" rows="2" [disabled]="!isEditable"></textarea>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div class="row" *ngIf="showDetails">
+  <div class="col-md-4">
+    <button (click)="onEdit()" class="btn btn-success">Edit</button> 
+    <button (click)="onUpdate()" class="btn btn-success" *ngIf="isEditable">Update</button> 
+    <button (click)="onReset()" class="btn btn-success" *ngIf="isEditable">Reset</button>
+  </div>
+</div>

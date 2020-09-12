@@ -1,0 +1,59 @@
+<div *ngIf="isLoading" style="text-align: center;">
+    <app-loading-spinner></app-loading-spinner>
+</div>
+<div class="row">
+    <div class="col-md-12"><b>Project name : </b> {{epicData['project']}}</div>
+    <div class="col-md-12"><b>Summary : </b> {{epicData['summary']}}</div>
+    <div class="col-md-12"><b>Description : </b> {{epicData['description']}}</div>
+    <div class="col-md-12"><b>Story Point : </b> {{epicData['storyPoint']}}</div>
+    <div class="col-md-12"><b>Assignee : </b> {{epicData['assignee']}}</div>
+    <div class="col-md-12"><b>Status : </b> {{epicData['status']}}</div>
+    <div class="col-md-12"><b>Type : </b> {{searchtype}}</div>    
+</div>    
+<table class="table table-striped table-bordered table-sm row-border hover" datatable *ngIf="showDetails">
+    <thead>
+    <tr>
+        <th><input type="checkbox" [disabled]="isEditable" [checked]="mainChecked" (click)="onAllCheck($event.target.checked)"></th>
+        <th>Key</th>
+        <th>Issue Type</th>
+        <th>Story point</th>
+        <th>Summary</th>
+        <th>Assignee</th>
+        <th>Status</th>        
+        <th>Comment</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let epic of epicStories">
+        <td><input type="checkbox" [disabled]="isEditable" [checked]="allChecked" value="{{epic.key}}" (click)="onTaskCheck($event.target.checked, epic.key)"></td>
+        <td>
+            <a [routerLink]="['/search/', epic.key]">{{epic.key}}</a>
+        </td>
+        <td>{{epic.fields.issuetype.name}}</td>
+        <td>
+            <input *ngIf="isEditable" type="text" [value]="epic.fields.customfield_10020">
+            <div *ngIf="!isEditable">{{epic.fields.customfield_10020}}</div>
+        </td>
+        <td>{{epic.fields.summary}}</td>
+        <td>
+            <span *ngIf="epic.fields.assignee">{{epic.fields.assignee.displayName}}</span>            
+        </td>
+        <td>
+            <select name="status" *ngIf="isEditable">
+                <option *ngFor="let status of statuses" value="status" [selected]="epic.fields.status.name == status">{{ status }}</option>
+            </select>                    
+            <div *ngIf="!isEditable">{{epic.fields.status.name}}</div>                          
+        </td>        
+        <td>
+            <textarea name="" id="" cols="25" rows="2" [disabled]="!isEditable"></textarea>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<div class="row" *ngIf="showDetails">    
+    <div class="col-md-4">
+    <button (click)="onEdit()" class="btn btn-success">Edit</button> 
+    <button (click)="onUpdate()" class="btn btn-success" *ngIf="isEditable">Update</button> 
+    <button (click)="onReset()" class="btn btn-success" *ngIf="isEditable">Reset</button>
+    </div>
+</div>

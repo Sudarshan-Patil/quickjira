@@ -1,0 +1,10 @@
+<div class="row">
+  <div class="col-md-4">
+    <input type="text" placeholder="OEHA-8279" #searchParam class="form-control">     
+  </div>
+  <div class="col-md-4">
+    <button (click)="onSearchEpic(searchParam.value)" class="btn btn-success">Search Epic/Story</button>
+  </div>
+</div>
+<app-epic *ngIf="type == 'Epic' && showDetails" [searchtype]="type" [epic]="searchParam.value"></app-epic>
+<app-story *ngIf="(type == 'Story' || type == 'Sub-task') && showDetails" [searchtype]="type" [story]="searchParam.value"></app-story>

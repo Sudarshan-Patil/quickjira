@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="col-md-4">       
+      <select name="project" class="form-control" (change)="onChangeProject($event)">
+          <option value=''>Please Select Project</option>
+          <option *ngFor="let project of projects; let i=index" value="{{ project.id }}">{{ project.name }}</option>
+      </select>      
+    </div>
+    <div class="col-md-4">       
+      <select name="board" class="form-control" (change)="onChangeBoard($event)">
+        <option value=''>Please Select Board</option>
+          <option *ngFor="let board of boards; let i=index" value="{{ board.id }}">{{ board.name }}</option>
+      </select>      
+    </div>
+    <div class="col-md-4">       
+        <select name="sprint" class="form-control" (change)="onChangeSprint($event)">
+            <option value=''>Please Select Sprint</option>
+            <option *ngFor="let sprint of sprints; let i=index" value="{{ sprint.id }}">{{ sprint.name }}</option>
+        </select>      
+      </div>
+  </div>
+
+
+  <app-graph [barChartLabels]="barChartLabels" [barChartData]="barChartData" *ngIf="showgraph"></app-graph>
